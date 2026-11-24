@@ -1,0 +1,11 @@
+'use strict';
+const fs = require('node:fs');
+const path = require('node:path');
+const esbuild = require('esbuild');
+fs.mkdirSync('dist', { recursive: true });
+esbuild.buildSync({ entryPoints: ['src/extension.js'], bundle: true, platform: 'node', target: 'node18', external: ['vscode'], outfile: 'dist/extension.js' });
+fs.copyFileSync(path.join(path.dirname(require.resolve('dompurify')), 'purify.min.js'), 'dist/purify.min.js');
+fs.copyFileSync('media/viewer.js', 'dist/viewer.js');
+fs.copyFileSync('media/viewer.css', 'dist/viewer.css');
+fs.copyFileSync(path.join(path.dirname(require.resolve('dompurify')), '..', 'LICENSE'), 'dist/DOMPurify-LICENSE');
+console.log('Built SVGLink in dist/');

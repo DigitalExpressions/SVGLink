@@ -1,0 +1,13 @@
+.tools/**
+.vscode/**
+.vscode-test/**
+node_modules/**
+src/**
+media/**
+scripts/**
+test/**
+test-results/**
+package-lock.json
+*.vsix
+.gitignore
+.vscodeignore

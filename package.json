@@ -1,0 +1,116 @@
+{
+  "name": "svglink",
+  "displayName": "SVGLink",
+  "description": "Interactive SVG viewer that opens linked source files in your current VS Code workspace.",
+  "version": "0.1.0",
+  "publisher": "digitalexpressions",
+  "icon": "icons/dex_logo_256.png",
+  "author": {
+    "name": "DigitalExpressions Sweden HB",
+    "email": "dtxpression@gmail.com"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DigitalExpressions/SVGLink.git"
+  },
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Visualization",
+    "Other"
+  ],
+  "keywords": [
+    "svg",
+    "viewer",
+    "source",
+    "diagram",
+    "links"
+  ],
+  "main": "./dist/extension.js",
+  "extensionKind": [
+    "workspace"
+  ],
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": true
+    },
+    "virtualWorkspaces": true
+  },
+  "activationEvents": [
+    "onCustomEditor:svglink.viewer"
+  ],
+  "contributes": {
+    "customEditors": [
+      {
+        "viewType": "svglink.viewer",
+        "displayName": "SVGLink",
+        "selector": [
+          {
+            "filenamePattern": "*.svg"
+          },
+          {
+            "filenamePattern": "*.SVG"
+          }
+        ],
+        "priority": "option"
+      }
+    ],
+    "commands": [
+      {
+        "command": "svglink.open",
+        "title": "SVGLink: Open SVG Viewer"
+      },
+      {
+        "command": "svglink.openBeside",
+        "title": "SVGLink: Open SVG Viewer to the Side"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "svglink.open",
+          "when": "resourceExtname =~ /\\.[sS][vV][gG]$/",
+          "group": "navigation@20"
+        }
+      ],
+      "editor/title": [
+        {
+          "command": "svglink.openBeside",
+          "when": "resourceExtname =~ /\\.[sS][vV][gG]$/ && activeCustomEditorId != svglink.viewer",
+          "group": "navigation"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "SVGLink",
+      "properties": {
+        "svglink.openLinksBeside": {
+          "type": "boolean",
+          "default": true,
+          "description": "Open linked source files beside the SVG preview."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "build": "node scripts/build.js",
+    "test": "node --test test/*.test.js",
+    "test:integration": "node test/run-integration.js",
+    "vscode:prepublish": "npm run build",
+    "package": "vsce package --allow-missing-repository --no-dependencies --out SVGLink-0.1.0.vsix"
+  },
+  "dependencies": {
+    "dompurify": "^3.5.0"
+  },
+  "overrides": {
+    "minimatch": "^11.0.1"
+  },
+  "devDependencies": {
+    "@vscode/test-electron": "^3.1.0",
+    "@vscode/vsce": "^4.1.1",
+    "esbuild": "^0.28.2",
+    "playwright": "^1.65.1"
+  }
+}
